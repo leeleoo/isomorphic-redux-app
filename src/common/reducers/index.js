@@ -10,6 +10,7 @@ import version from './version';
 import { selectedReddit, postsByReddit } from './reddit';
 
 const rootReducer = combineReducers({
+	api:'http://101.201.154.107:8080/china',
   user : user,
   version : version,
   counter : undoable(counter),

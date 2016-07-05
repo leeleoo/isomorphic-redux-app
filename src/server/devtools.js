@@ -1,10 +1,29 @@
 import React from 'react';
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import { render } from 'react-dom';
+
+
+import { createDevTools } from 'redux-devtools';
+// Monitors are separate packages, and you can make a custom one
+import LogMonitor from 'redux-devtools-log-monitor';
+import DockMonitor from 'redux-devtools-dock-monitor';
+
 
 /*
  * Puts Redux DevTools into a separate window.
  * Based on https://gist.github.com/tlrobinson/1e63d15d3e5f33410ef7#gistcomment-1560218.
  */
+
+const DevTools = createDevTools(
+   // Monitors are individually adjustable with props.
+   // Consult their repositories to learn about those props.
+   // Here, we put LogMonitor inside a DockMonitor.
+   // Note: DockMonitor is visible by default.
+   <DockMonitor toggleVisibilityKey='ctrl-h'
+                changePositionKey='ctrl-q'
+                defaultIsVisible={true}>
+     <LogMonitor theme='tomorrow' />
+   </DockMonitor>
+);
 export default function createDevToolsWindow(store) {
   // Give it a name so it reuses the same window
   const name = 'Redux DevTools';
@@ -29,10 +48,8 @@ export default function createDevToolsWindow(store) {
   win.document.title = name;
 
   // Wait a little bit for it to reload, then render.
-  setTimeout(() => React.render(
-    <DebugPanel top right bottom left>
-      <DevTools store={store} monitor={LogMonitor} />
-    </DebugPanel>,
+  setTimeout(() => render(
+    <DevTools store={store}></DevTools>,
     win.document.body.appendChild(document.createElement('div'))
   ), 10);
 }

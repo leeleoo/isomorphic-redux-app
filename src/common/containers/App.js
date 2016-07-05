@@ -1,57 +1,42 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import classNames from 'classnames';
-import * as UserActions from '../actions/user';
-import * as LayoutActions from '../actions/layout';
-import Home from '../components/Home'
-import Header from '../components/layout/Header'
-import Sidebar from '../components/layout/Sidebar'
+import Slider from 'react-slick';
 
 class App extends Component {
 
   constructor(props){
     super(props);
-    this.eventToggleSidebar = this.eventToggleSidebar.bind(this)
-    this.eventUndo = this.eventUndo.bind(this)
-    this.eventRedo = this.eventRedo.bind(this)
   }
-
-  eventToggleSidebar(e) {
-    e.preventDefault();
-    this.props.toggleSidebar(!this.props.layout.sidebarOpen);
-  }
-
-  eventUndo(e) {
-    e.preventDefault();
-    this.props.undo();
-  }
-
-  eventRedo(e) {
-    e.preventDefault();
-    this.props.redo();
-  }
-
   render() {
+    let { advert } = this.props
 
-    const { user,layout, version, counter, todos } = this.props;
-    const { sidebarOpen } = layout;
-    const layoutClass = classNames('wrapper',{open : sidebarOpen});
+    let settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
 
     return (
-      <div className={layoutClass}>
-        <Sidebar layout={layout} user={user} version={version} />
-  	    <div className="wrap">
-          <Header todos={todos} counter={counter} />
-          <div className="container content">
-            {!this.props.children && <Home />}
-            {this.props.children}
-          </div>
+      <div>
+        <div id="top">
+          <Slider {...settings}>
+            {
+              advert && advert.map((el,index) => {
+                return(
+                    <img key={index} src={`${api}el`} alt={el}/>
+                  )
+              })
+            }
+          </Slider>
+          <iframe id="baiduframe" marginWidth="0" marginHeight="0" scrolling="no"
+                  width={"100%"} height={40}
+                  src="http://unstat.baidu.com/bdun.bsc?tn=dabaoku&cv=1&cid=31577&csid=301&bgcr=ffffff&ftcr=000000&urlcr=0000ff&tbsz=260&sropls=1,2,3,4,5,6&defid=2&ch=1">
+          </iframe>
         </div>
-        <label className="sidebar-toggle" onClick={this.eventToggleSidebar}></label>
-        <label className="undo-button" onClick={this.eventUndo}>&lt;</label>
-        <label className="redo-button" onClick={this.eventRedo}>&gt;</label>
       </div>
     );
   }
@@ -59,16 +44,9 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    counter : state.counter.present,
-    todos : state.todos.present,
-    version : state.version,
-  	user : state.user,
-    layout : state.layout.present
+    advert : state.advert,
+    api : state.api
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(LayoutActions,dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
