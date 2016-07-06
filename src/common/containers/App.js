@@ -8,6 +8,7 @@ import * as LayoutActions from '../actions/layout';
 import Home from '../components/Home'
 import Header from '../components/layout/Header'
 import Sidebar from '../components/layout/Sidebar'
+import Slider from "react-slick";
 
 class App extends Component {
 
@@ -38,10 +39,25 @@ class App extends Component {
     const { user,layout, version, counter, todos } = this.props;
     const { sidebarOpen } = layout;
     const layoutClass = classNames('wrapper',{open : sidebarOpen});
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
 
     return (
       <div className={layoutClass}>
         <Sidebar layout={layout} user={user} version={version} />
+        <Slider {...settings}>
+          <div><h3>1</h3></div>
+          <div><h3>2</h3></div>
+          <div><h3>3</h3></div>
+          <div><h3>4</h3></div>
+          <div><h3>5</h3></div>
+          <div><h3>6</h3></div>
+        </Slider>
   	    <div className="wrap">
           <Header todos={todos} counter={counter} />
           <div className="container content">

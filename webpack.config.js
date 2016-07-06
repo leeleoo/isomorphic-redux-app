@@ -29,8 +29,8 @@ if (process.env.NODE_ENV === 'production') {
         exclude: /node_modules/,
         include: __dirname
       },
-      { test: /\.(png|jpg|gif|jpeg)$/, loader: 'url-loader?limit=8192'},
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap') }
+        { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap') },
+        { test: /\.(png|jpg|gif|jpeg|svg|eot|ttf|woff)$/, loader: 'url-loader?limit=8192'}
     ]},
     plugins : [
       new webpack.DefinePlugin({
@@ -78,7 +78,7 @@ if (process.env.NODE_ENV === 'production') {
           }
         }
       },
-      { test: /\.(png|jpg|gif|jpeg)$/, loader: 'url-loader?limit=8192'},
+      { test: /\.(png|jpg|gif|jpeg|svg|eot|ttf|woff)$/, loader: 'url-loader?limit=8192'},
       { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]},
     entry : [
